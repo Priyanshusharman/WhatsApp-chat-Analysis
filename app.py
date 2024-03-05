@@ -35,6 +35,43 @@ if uploaded_file is not None:
         with col4:
             st.header("Total link")
             st.title(link)
+
+         # most_active_months
+        st.title("Monthly Timeline")
+        time_line = helper.most_active_months(selected_user, df)
+        fig, ax = plt.subplots()
+        ax.plot(time_line['time'], time_line['message'],color='black')
+        plt.xticks(rotation='vertical')
+        st.pyplot(fig)
+
+        #most active day
+        st.title("Daily Timeline")
+        day_df=helper.most_active_day(selected_user,df)
+        fig, ax = plt.subplots()
+        ax.plot(day_df['date'],day_df['message'],color='darkgreen')
+        plt.xticks(rotation='vertical')
+        st.pyplot(fig)
+
+        #most active Week
+        st.title("Activity Map")
+        week=helper.most_active_day_name(selected_user,df)
+        month_activity_df = helper.month_activity(selected_user, df)
+        col1, col2 =st.columns(2)
+        with col1:
+            st.header("Most Busy Day")
+            fig, ax = plt.subplots()
+            ax.bar(week.index, week.values)
+            plt.xticks(rotation='vertical')
+            st.pyplot(fig)
+        with col2:
+            st.header("Most Busy Month")
+            fig, ax = plt.subplots()
+            ax.bar(month_activity_df .index, month_activity_df .values)
+            plt.xticks(rotation='vertical')
+            st.pyplot(fig)
+
+
+
         # find busi user
         if selected_user=='Overall':
 
@@ -44,7 +81,7 @@ if uploaded_file is not None:
             col1, col2 = st.columns(2)
             with col1:
                 st.title('Most Busy User')
-                ax.bar(x.index, x.values)
+                ax.bar(x.index, x.values,color='red')
                 plt.xticks(rotation='vertical')
                 st.pyplot(fig)
             with col2:
@@ -55,3 +92,30 @@ if uploaded_file is not None:
         fig, ax =plt.subplots()
         ax.imshow(img)
         st.pyplot(fig)
+
+        #most words user
+        st.title("Most common words")
+        most_commen = helper.most_common_words(selected_user,df)
+        # col1, col2 = st.columns(2)
+        # with col1:
+        fig, ax =plt.subplots()
+        ax.barh(most_commen[0],most_commen[1])
+        plt.xticks(rotation='vertical')
+        st.pyplot(fig)
+        # with col2:
+        # st.dataframe(most_commen)
+
+        # most common emojies
+        st.title("Emoji Analysis")
+        emoji_df = helper.most_emojies_use(selected_user,df)
+        col1, col2 = st.columns(2)
+        with col1:
+            st.dataframe(emoji_df)
+        with col2:
+            fig, ax = plt.subplots()
+            ax.pie(emoji_df[1].head(), labels=emoji_df[0].head(), autopct="%0.2f")
+            st.pyplot(fig)
+
+
+
+
