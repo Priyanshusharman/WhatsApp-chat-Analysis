@@ -2,13 +2,26 @@ import re
 import pandas as pd
 def preprocess(data):
     pattern = '\d{1,2}/\d{1,2}/\d{2,4},\s\d{1,2}:\d{2}\s-\s'
+
+    if '\u202f' in data:
+        pattern = '\d{1,2}/\d{1,2}/\d{4},\s\d{1,2}:\d{2}\s[ap]m\s-'
+
     messages = re.split(pattern, data)[1:]
     dates = re.findall(pattern, data)
+
+    da = []
+    for data in dates:
+        da.append(re.sub('\u202f', " ", data))
+    dates = da
+
     df = pd.DataFrame({'user_message': messages, 'message_date': dates})
     try:
         df['message_date'] = pd.to_datetime(df['message_date'], format='%d/%m/%y, %H:%M - ')
     except ValueError:
-        df['message_date'] = pd.to_datetime(df['message_date'], format='%d/%m/%Y, %H:%M - ')
+        try:
+            df['message_date'] = pd.to_datetime(df['message_date'], format='%d/%m/%Y, %H:%M - ')
+        except ValueError:
+            df['message_date'] = pd.to_datetime(df['message_date'], format='%d/%m/%Y, %I:%M %p -')
     user = []
     messages = []
     for message in df['user_message']:
