@@ -2,6 +2,7 @@ import streamlit as st
 import preprocesser
 import helper
 import matplotlib.pyplot as plt
+import seaborn as sns
 st.sidebar.title("Text Analyzer")
 uploaded_file = st.sidebar.file_uploader("Choose a file")
 if uploaded_file is not None:
@@ -70,6 +71,12 @@ if uploaded_file is not None:
             plt.xticks(rotation='vertical')
             st.pyplot(fig)
 
+        #activity heat mmap
+        st.title("User HeatMap")
+        headmap_table=helper.Active_user_heatmap(selected_user,df)
+        fig, ax =plt.subplots()
+        ax = sns.heatmap(headmap_table)
+        st.pyplot(fig)
 
 
         # find busi user

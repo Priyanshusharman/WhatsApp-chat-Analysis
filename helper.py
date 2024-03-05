@@ -95,4 +95,9 @@ def month_activity(selected_user,df):
     return day
 
 #heat map of active user
-# def Activeuser
+def Active_user_heatmap(selected_user,df):
+    if selected_user != "Overall":
+        df = df[df['user'] == selected_user]
+
+    activaty_table=df.pivot_table(index="day_name",columns='period',values='message',aggfunc='count').fillna(0)
+    return activaty_table
