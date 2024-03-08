@@ -21,7 +21,10 @@ def preprocess(data):
         try:
             df['message_date'] = pd.to_datetime(df['message_date'], format='%d/%m/%Y, %H:%M - ')
         except ValueError:
-            df['message_date'] = pd.to_datetime(df['message_date'], format='%d/%m/%Y, %I:%M %p -')
+            try:
+                df['message_date'] = pd.to_datetime(df['message_date'], format='%d/%m/%Y, %I:%M %p -')
+            except ValueError:
+                df['message_date'] = pd.to_datetime(df['message_date'], format='%m/%d/%y, %H:%M - ')
     user = []
     messages = []
     for message in df['user_message']:
