@@ -18,7 +18,7 @@ Certainly! Here's a more detailed explanation of the installation and usage inst
 1. Clone the Repository: This step downloads the project files to your local machine. Open a terminal and run the following command:
 
    
-   git clone https://github.com/yourusername/whatsapp-chat-analyzer.git
+   git clone [https://github.com/yourusername/whatsapp-chat-analyzer.git](https://github.com/Priyanshusharman/WhatsApp-chat-Analysis/tree/main/__pycache__)
    
 
 2. Install Dependencies: Navigate into the project directory and install the required Python packages by running:
